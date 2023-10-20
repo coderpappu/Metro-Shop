@@ -9,10 +9,7 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please Add Your Product Type"],
   },
-  // prodColor: {
-  //   type: String,
-  //   require: [true, "Please Add Your Product Color"],
-  // },
+
   prodWeight: {
     type: String,
     require: [true, "Please Add Your Product Color"],
@@ -23,11 +20,9 @@ const ProductSchema = new mongoose.Schema({
   },
   prodDisc: {
     type: Number,
-    require: false,
+    require: true,
   },
 });
 
 module.exports =
   mongoose.model.ProductBDs || mongoose.model("ProductBD", ProductSchema);
-
-//name , price , discount , category , img

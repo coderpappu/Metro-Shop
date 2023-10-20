@@ -21,10 +21,10 @@ router.get("/", async (req, res) => {
 
 // }
 
-
 router.post("/productAdd", async (req, res) => {
   console.log(req.body);
-  const { productName, prodType, prodColor, prodWeight, prodPrice } = req.body;
+  const { productName, prodType, prodColor, prodWeight, prodPrice, prodDisc } =
+    req.body;
 
   //   if (!productName || !prodType || !prodColor || !prodWeigh || !prodPrice) {
   //     return res.status(422).json({ error: "Please Fill All Required Filed." });
@@ -36,6 +36,7 @@ router.post("/productAdd", async (req, res) => {
     prodColor,
     prodWeight,
     prodPrice,
+    prodDisc,
   });
 
   await product.save();
@@ -43,3 +44,9 @@ router.post("/productAdd", async (req, res) => {
 });
 
 module.exports = router;
+
+// student data delete
+router.delete("/:id", async (req, res) => {
+  await ProductModel.deleteOne({ _id: req.params.id });
+  res.status(200).send("Student Data Deleted");
+});

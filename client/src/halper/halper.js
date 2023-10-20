@@ -10,3 +10,8 @@ export async function addProduct(pdata) {
   const { data } = await axois.post("/productAdd", pdata);
   return data;
 }
+
+export async function productDelete(deleteId) {
+  const data = await axois.delete(`/${deleteId}`);
+  return data;
+}

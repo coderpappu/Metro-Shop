@@ -53,7 +53,7 @@ const menu = () => {
                     <Link to="/contact">Contact</Link>
                   </li>
                   <li className="font-josefin">
-                    <Link to="/productadd">My Account</Link>
+                    <Link to="/admindash">My Account</Link>
                   </li>
                 </ul>
               </div>
