@@ -3,7 +3,9 @@ import { getStudent, deleteProduct } from "../../halper/halper";
 
 const ActionSys = () => {
   let [products, setproducts] = useState([]);
-
+  useEffect(() => {
+    dataShowHandler();
+  }, []);
   const dataShowHandler = async () => {
     let showDB = await getStudent();
 
@@ -12,15 +14,10 @@ const ActionSys = () => {
     return showDB;
   };
 
-  useEffect(() => {
-    dataShowHandler();
-  }, []);
-
   let deleteHandler = (id) => {
-    // console.log(id);
     deleteProduct(id);
     dataShowHandler();
-	setproducts()
+    setproducts(products.filter((product) => product.id !== id));
   };
   return (
     <div>

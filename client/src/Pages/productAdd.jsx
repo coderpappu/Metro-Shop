@@ -21,11 +21,25 @@ const productAdd = () => {
   const [input, setInput] = useState(initialData);
 
   const handleInput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+    // console.log(e.target.files[0]);
+  };
+
+  const handlerImgInput = async (e) => {
+    let base64 = await convertTobase64(e.target.files[0]);
+    setInput({
+      ...input,
+      [e.target.name]: base64,
+    });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    console.log(input);
 
     addProduct(input);
   };
@@ -83,6 +97,13 @@ const productAdd = () => {
           />
           <br />
           <br />
+          <label htmlFor="">Image</label>
+          <input
+            type="file"
+            name="prodImg"
+            accept=".png , .jpg, .jpeg"
+            onChange={handlerImgInput}
+          />
 
           <button type="submit">Add </button>
         </form>
@@ -92,3 +113,17 @@ const productAdd = () => {
 };
 
 export default productAdd;
+
+function convertTobase64(file) {
+  return new Promise((resolve, reject) => {
+    let fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

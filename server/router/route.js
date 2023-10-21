@@ -23,8 +23,15 @@ router.get("/", async (req, res) => {
 
 router.post("/productAdd", async (req, res) => {
   console.log(req.body);
-  const { productName, prodType, prodColor, prodWeight, prodPrice, prodDisc } =
-    req.body;
+  const {
+    productName,
+    prodType,
+    prodColor,
+    prodWeight,
+    prodPrice,
+    prodDisc,
+    prodImg,
+  } = req.body;
 
   // if (
   //   !productName ||
@@ -44,6 +51,7 @@ router.post("/productAdd", async (req, res) => {
     prodWeight,
     prodPrice,
     prodDisc,
+    prodImg,
   });
 
   await product.save();
