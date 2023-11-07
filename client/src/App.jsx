@@ -11,6 +11,7 @@ import Error from "./Pages/error";
 import ProductAdd from "./Pages/productAdd";
 import AdminDashboard from "./Pages/Dashboard/adminDashboard";
 import ActionPanel from "./Pages/Dashboard/actionPage";
+import UpdateProduct from "./Pages/Dashboard/updateProduct";
 const App = () => {
   return (
     <>
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/admindash" element={<AdminDashboard />} />
           <Route path="/prodadd" element={<ProductAdd />} />
           <Route path="/actionpanel" element={<ActionPanel />} />
+          <Route path="/updateproudct" element={<UpdateProduct />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<Error />} />

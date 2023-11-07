@@ -1,23 +1,27 @@
-import React, { useState } from "react";
-import { addProduct } from "../halper/halper";
-// {
-//   "productName" : "Logitech 502 ",
-//   "prodType" : "Keyboard",
-//   "prodWeight" : "300g",
-//   "prodPrice" : 2000,
-//   "prodDisc" : 10
+import React, { useEffect, useState } from "react";
+import { getStudent } from "../../halper/halper";
+import { useProductsStore } from "../../store/store";
+import { productUpdate } from "../../halper/halper";
+const updateProduct = () => {
+  const [data, setData] = useState("");
+  const getId = useProductsStore((state) => state.products);
 
-// }
+  let storeData;
 
-const productAdd = () => {
-  
+  getId.map((text) => {
+    storeData = text;
+  });
+
+  console.log(storeData.prodImg);
+
   const initialData = {
-    productName: "",
-    prodType: "",
-    prodWeight: "",
-    prodPrice: "",
-    prodDisc: "",
-    prodImg: "",
+    UserId: storeData._id,
+    productName: storeData.productName,
+    prodType: storeData.prodType,
+    prodWeight: storeData.prodWeight,
+    prodPrice: storeData.prodPrice,
+    prodDisc: storeData.prodDisc,
+    prodImg: storeData.prodImg,
   };
 
   const [input, setInput] = useState(initialData);
@@ -30,7 +34,6 @@ const productAdd = () => {
   };
 
   const handlerImgInput = async (e) => {
-    console.log(e.target.files[0]);
     let base64 = await convertTobase64(e.target.files[0]);
     setInput({
       ...input,
@@ -40,8 +43,7 @@ const productAdd = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    addProduct(input);
+    productUpdate(input);
   };
   return (
     <div>
@@ -53,6 +55,7 @@ const productAdd = () => {
             type="text"
             placeholder="Enter Your Product Name "
             name="productName"
+            value={input.productName}
             onChange={handleInput}
           />
           <br />
@@ -63,6 +66,7 @@ const productAdd = () => {
             type="text"
             name="prodType"
             placeholder="Enter Your Product Type "
+            value={input.prodType}
             onChange={handleInput}
           />
           <br />
@@ -73,6 +77,7 @@ const productAdd = () => {
             type="text"
             name="prodWeight"
             placeholder="Enter Your Product Weight "
+            value={input.prodWeight}
             onChange={handleInput}
           />
           <br />
@@ -83,6 +88,7 @@ const productAdd = () => {
             type="number"
             name="prodPrice"
             placeholder="Enter Your Product price "
+            value={input.prodPrice}
             onChange={handleInput}
           />
           <br />
@@ -93,6 +99,7 @@ const productAdd = () => {
             type="text"
             name="prodDisc"
             placeholder="Enter Your Product discount "
+            value={input.prodDisc}
             onChange={handleInput}
           />
           <br />
@@ -102,6 +109,7 @@ const productAdd = () => {
             type="file"
             name="prodImg"
             accept=".png , .jpg, .jpeg"
+            // value={input.prodImg}
             onChange={handlerImgInput}
           />
 
@@ -112,7 +120,7 @@ const productAdd = () => {
   );
 };
 
-export default productAdd;
+export default updateProduct;
 
 function convertTobase64(file) {
   return new Promise((resolve, reject) => {

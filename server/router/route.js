@@ -22,13 +22,26 @@ router.get("/", async (req, res) => {
 // }
 
 router.post("/productAdd", async (req, res) => {
-  console.log(req.body);
-  const { productName, prodType, prodColor, prodWeight, prodPrice, prodDisc } =
-    req.body;
+  const {
+    productName,
+    prodType,
+    prodColor,
+    prodWeight,
+    prodPrice,
+    prodDisc,
+    prodImg,
+  } = req.body;
 
-  //   if (!productName || !prodType || !prodColor || !prodWeigh || !prodPrice) {
-  //     return res.status(422).json({ error: "Please Fill All Required Filed." });
-  //   }
+  // if (
+  //   !productName ||
+  //   !prodType ||
+  //   !prodColor ||
+  //   !prodWeigh ||
+  //   !prodPrice ||
+  //   !prodDisc
+  // ) {
+  //   return res.status(422).json({ error: "Please Fill All Required Filed." });
+  // }
 
   const product = new ProductModel({
     productName,
@@ -37,16 +50,41 @@ router.post("/productAdd", async (req, res) => {
     prodWeight,
     prodPrice,
     prodDisc,
+    prodImg,
   });
 
   await product.save();
   res.status(200).json({ message: "Product Added Successful!" });
 });
 
-module.exports = router;
-
-// student data delete
 router.delete("/:id", async (req, res) => {
-  await ProductModel.deleteOne({ _id: req.params.id });
-  res.status(200).send("Student Data Deleted");
+  let deleteData = await ProductModel.deleteOne({ _id: req.params.id });
+  res.status(200).send("Product Deleted");
 });
+
+router.put("/updateProduct", async (req, res) => {
+  let {
+    UserId,
+    productName,
+    prodType,
+    prodWeight,
+    prodPrice,
+    prodDisc,
+    prodImg,
+  } = req.body;
+
+  ProductModel.updateOne(
+    { _id: UserId },
+    { productName, prodType, prodWeight, prodPrice, prodDisc, prodImg }
+  )
+    .then(() => {
+      res.status(200).send({ message: " Updated Data!" });
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .send({ error: " An error occurred while updating user details" });
+    });
+});
+
+module.exports = router;

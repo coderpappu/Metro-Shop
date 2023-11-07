@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { getStudent, productDelete } from "../../halper/halper";
 
+import { Link, useNavigate } from "react-router-dom";
+import { useProductsStore } from "../../store/store";
+
 const actionPage = () => {
   let [product, setproduct] = useState([]);
+  let [productId, setProductId] = useState("");
+  let [updateProduct, setUpdateProduct] = useState("");
+  const navigate = useNavigate();
+  const addCourse = useProductsStore((state) => state.addCourse);
 
   useEffect(() => {
     dataShowHandler();
   }, []);
+
   const dataShowHandler = async () => {
     let showDB = await getStudent();
 
@@ -18,14 +26,25 @@ const actionPage = () => {
   //   delete Handler
   const deleteHandler = async (id) => {
     let { status } = await productDelete(id);
+
     if (status === 200) {
       dataShowHandler();
       setproduct(product.filter((product) => product.id !== id));
-      console.log(product);
     }
   };
 
-  console.log(product);
+  // update handler
+  const updateHandler = async (id) => {
+    setProductId(id);
+
+    // let datastore = ;
+    // console.log(datastore);
+    // setUpdateProduct("ho");
+
+    addCourse(product.filter((product) => product._id === id));
+    // navigate("/updateproudct");
+  };
+
   return (
     <div>
       <table>
@@ -46,7 +65,12 @@ const actionPage = () => {
               <td>{pData.prodPrice}</td>
               <td>{pData.prodType}</td>
               <td>
-                <button className="bg-orange-600 p-3">Edit</button>{" "}
+                <button
+                  className="bg-orange-600 p-3"
+                  onClick={() => updateHandler(pData._id)}
+                >
+                  <Link to="/updateproudct">Edit</Link>
+                </button>
                 <button
                   className="bg-red-500 p-3"
                   onClick={() => deleteHandler(pData._id)}

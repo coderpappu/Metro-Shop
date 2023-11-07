@@ -4,11 +4,7 @@ const featureSingleProduct = ({ data }) => {
   return (
     <>
       <div className="single-product relative w-[300px] z-100">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrNu3n3yXwM8Y7kbTuTCPS6g8mf4eAlniV6g&usqp=CAU"
-          alt=""
-          className="z-100"
-        />
+        <img src={data.prodImg} alt="" className="z-100" />
         <span className="discount absolute text-[12px] text-center pl-[8px] pr-[8px] pt-[2px] pb-[2px] rounded-[4px] bg-black text-[#fff] top-[18px] left-[20px]">
           10
         </span>

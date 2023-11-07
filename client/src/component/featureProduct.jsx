@@ -64,7 +64,7 @@ const featureProduct = () => {
                 <div className="right-products w-[49%] ml-[1%]">
                   <div className="products-card flex flex-wrap gap-6">
                     {product.map((pd) => (
-                      <FeatureSingleProduct data={pd} />
+                      <FeatureSingleProduct data={pd} key={pd._id} />
                     ))}
                   </div>
                 </div>
@@ -72,7 +72,7 @@ const featureProduct = () => {
               <div className="linefeatureProduct mt-[20px] ml-[5px]">
                 <div className="flex flex-wrap gap-6">
                   {product.map((d) => (
-                    <FeatureSingleProduct data={d} />
+                    <FeatureSingleProduct data={d} key={d._id} />
                   ))}
                 </div>
               </div>
