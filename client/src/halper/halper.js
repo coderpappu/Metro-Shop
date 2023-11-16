@@ -19,6 +19,38 @@ export async function productDelete(deleteId) {
 
 export async function productUpdate(updatedData) {
   const data = await axois.put("/updateProduct", updatedData);
-  console.log(data);
+
   return data;
+}
+
+// user Account
+export async function registration(pdata) {
+  try {
+    const { data } = await axois.post("/signup", pdata);
+    return Promise.resolve(data);
+  } catch (error) {
+    if (error.response) {
+      const { status, data } = error.response;
+
+      if (status === 422) {
+        return { error: data };
+      }
+
+      return { error: data };
+    } else if (error.request) {
+      return { error: "No Response Received" };
+    } else {
+      return { error: error.message };
+    }
+  }
+}
+
+// user login
+export async function loginPoint(userdata) {
+  try {
+    const { data } = await axois.post("/signin", userdata);
+    return Promise.resolve(data);
+  } catch (error) {
+    return error;
+  }
 }

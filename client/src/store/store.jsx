@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-const useProductsStore = create((set) => ({
-  products: [],
-  addCourse: (product) => {
+const ProductStore = create((set) => ({
+  product: ["hi"],
+  addProduct: (data) => {
     set((state) => ({
-      products: product,
+      product: data,
     }));
   },
 }));
 
-export { useProductsStore };
+export { ProductStore };

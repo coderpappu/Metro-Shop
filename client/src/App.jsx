@@ -12,6 +12,8 @@ import ProductAdd from "./Pages/productAdd";
 import AdminDashboard from "./Pages/Dashboard/adminDashboard";
 import ActionPanel from "./Pages/Dashboard/actionPage";
 import UpdateProduct from "./Pages/Dashboard/updateProduct";
+import Singup from "./Pages/singup";
+import Login from "./Pages/login";
 const App = () => {
   return (
     <>
@@ -24,7 +26,10 @@ const App = () => {
           <Route path="/admindash" element={<AdminDashboard />} />
           <Route path="/prodadd" element={<ProductAdd />} />
           <Route path="/actionpanel" element={<ActionPanel />} />
-          <Route path="/updateproudct" element={<UpdateProduct />} />
+          <Route path="/updateproduct" element={<UpdateProduct />} />
+          <Route path="/signup" element={<Singup />} />
+          <Route path="/login" element={<Login />} />
+
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<Error />} />

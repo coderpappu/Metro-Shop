@@ -1,23 +1,13 @@
-import React, { useState } from "react";
-import { addProduct } from "../halper/halper";
-// {
-//   "productName" : "Logitech 502 ",
-//   "prodType" : "Keyboard",
-//   "prodWeight" : "300g",
-//   "prodPrice" : 2000,
-//   "prodDisc" : 10
-
-// }
-
-const productAdd = () => {
-  
+import React from "react";
+import { useState } from "react";
+import { registration } from "../halper/halper";
+const singup = () => {
   const initialData = {
-    productName: "",
-    prodType: "",
-    prodWeight: "",
-    prodPrice: "",
-    prodDisc: "",
-    prodImg: "",
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    profile: "",
   };
 
   const [input, setInput] = useState(initialData);
@@ -30,7 +20,6 @@ const productAdd = () => {
   };
 
   const handlerImgInput = async (e) => {
-    
     let base64 = await convertTobase64(e.target.files[0]);
     setInput({
       ...input,
@@ -38,81 +27,78 @@ const productAdd = () => {
     });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    addProduct(input);
+    let signResp = await registration(input);
+    if (signResp.error) {
+      console.log("SignUp Error : ", signResp.error);
+    } else {
+      console.log("SignUp Successful!");
+    }
   };
   return (
     <div>
-      <h1>Data Add Form </h1>
+      <h1>Registration Form </h1>
       <div>
         <form onSubmit={submitHandler}>
-          <label>Product Name </label>
+          <label>Name </label>
           <input
             type="text"
-            placeholder="Enter Your Product Name "
-            name="productName"
+            placeholder="Enter Your  Name "
+            name="name"
             onChange={handleInput}
           />
           <br />
           <br />
 
-          <label>Product Type </label>
+          <label>username</label>
           <input
             type="text"
-            name="prodType"
-            placeholder="Enter Your Product Type "
+            name="username"
+            placeholder="Enter Your username"
             onChange={handleInput}
           />
           <br />
           <br />
 
-          <label>Product Weight </label>
+          <label>email </label>
           <input
-            type="text"
-            name="prodWeight"
-            placeholder="Enter Your Product Weight "
+            type="email"
+            name="email"
+            placeholder="Enter Your email "
             onChange={handleInput}
           />
           <br />
           <br />
 
-          <label>Product Price </label>
+          <label>password</label>
           <input
-            type="number"
-            name="prodPrice"
-            placeholder="Enter Your Product price "
+            type="password"
+            name="password"
+            placeholder="Enter Your password "
             onChange={handleInput}
           />
           <br />
           <br />
 
-          <label>Product Discount </label>
-          <input
-            type="text"
-            name="prodDisc"
-            placeholder="Enter Your Product discount "
-            onChange={handleInput}
-          />
           <br />
-          <br />
-          <label htmlFor="">Image</label>
+          <label htmlFor="">Profile</label>
           <input
             type="file"
-            name="prodImg"
+            name="profile"
             accept=".png , .jpg, .jpeg"
             onChange={handlerImgInput}
           />
 
-          <button type="submit">Add </button>
+          <button type="submit">Registration </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default productAdd;
+export default singup;
 
 function convertTobase64(file) {
   return new Promise((resolve, reject) => {

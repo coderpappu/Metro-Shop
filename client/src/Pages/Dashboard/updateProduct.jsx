@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { getStudent } from "../../halper/halper";
-import { useProductsStore } from "../../store/store";
+import React, { useState } from "react";
+import { ProductStore } from "../../store/store";
 import { productUpdate } from "../../halper/halper";
-const updateProduct = () => {
-  const [data, setData] = useState("");
-  const getId = useProductsStore((state) => state.products);
+const UpdateProduct = () => {
+  const productData = ProductStore((state) => state.product);
 
   let storeData;
 
-  getId.map((text) => {
-    storeData = text;
+  productData.map((data) => {
+    storeData = data;
   });
 
-  console.log(storeData.prodImg);
-
   const initialData = {
-    UserId: storeData._id,
+    userId: storeData._id,
     productName: storeData.productName,
     prodType: storeData.prodType,
     prodWeight: storeData.prodWeight,
@@ -43,8 +39,10 @@ const updateProduct = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     productUpdate(input);
   };
+
   return (
     <div>
       <h1>Data Add Form </h1>
@@ -109,7 +107,6 @@ const updateProduct = () => {
             type="file"
             name="prodImg"
             accept=".png , .jpg, .jpeg"
-            // value={input.prodImg}
             onChange={handlerImgInput}
           />
 
@@ -120,7 +117,7 @@ const updateProduct = () => {
   );
 };
 
-export default updateProduct;
+export default UpdateProduct;
 
 function convertTobase64(file) {
   return new Promise((resolve, reject) => {
