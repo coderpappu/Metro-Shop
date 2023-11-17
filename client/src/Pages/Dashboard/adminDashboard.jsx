@@ -7,7 +7,8 @@ const adminDashboard = () => {
   let { username } = jwtDecode(tokenData);
 
   const loginHandler = () => {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token"); 
+    // token remove from localStorage 
   };
   return (
     <div>
