@@ -1,29 +1,13 @@
 import axois from "./api";
 
-// get student
-export async function getStudent() {
-  const { data } = await axois.get("/");
-  return data;
-}
+import { jwtDecode } from "jwt-decode";
 
-export async function addProduct(pdata) {
-  // console.log(pdata);
-  const { data } = await axois.post("/productAdd", pdata);
-  return data;
-}
-
-export async function productDelete(deleteId) {
-  const data = await axois.delete(`/${deleteId}`);
-  return data;
-}
-
-export async function productUpdate(updatedData) {
-  const data = await axois.put("/updateProduct", updatedData);
-
-  return data;
-}
 
 // user Account
+
+
+
+// user registration 
 export async function registration(pdata) {
   try {
     const { data } = await axois.post("/signup", pdata);
@@ -53,4 +37,40 @@ export async function loginPoint(userdata) {
   } catch (error) {
     return error;
   }
+}
+
+
+
+// user data get from token 
+export async function getUsername() {
+  const token = localStorage.getItem("token");
+
+  const decoded = jwtDecode(token);
+  return decoded;
+}
+
+
+
+// get student
+export async function getStudent() {
+  const { data } = await axois.get("/");
+  return data;
+
+}
+
+export async function addProduct(pdata) {
+  // console.log(pdata);
+  const { data } = await axois.post("/productAdd", pdata);
+  return data;
+}
+
+export async function productDelete(deleteId) {
+  const data = await axois.delete(`/${deleteId}`);
+  return data;
+}
+
+export async function productUpdate(updatedData) {
+  const data = await axois.put("/updateProduct", updatedData);
+
+  return data;
 }

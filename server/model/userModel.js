@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -20,5 +21,7 @@ const UserSchema = new mongoose.Schema({
   profile: String,
 });
 
-module.exports =
-  mongoose.model.userDBS || mongoose.model("userDBS", UserSchema);
+// module.exports =
+// mongoose.model.userDBS || mongoose.model("userDBS", UserSchema);
+
+export default mongoose.model.userDBS || mongoose.model("userDBS", UserSchema)

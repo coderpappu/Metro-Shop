@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+import mongoose from "mongoose";
+
 
 async function connectHepler() {
   const db = mongoose.connect("mongodb://127.0.0.1:27017/Products");
@@ -6,4 +8,5 @@ async function connectHepler() {
   return db;
 }
 
-module.exports = connectHepler;
+// module.exports = connectHepler;
+export default connectHepler

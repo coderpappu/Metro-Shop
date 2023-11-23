@@ -14,6 +14,7 @@ import ActionPanel from "./Pages/Dashboard/actionPage";
 import UpdateProduct from "./Pages/Dashboard/updateProduct";
 import Singup from "./Pages/singup";
 import Login from "./Pages/login";
+import Profile from "./Pages/profile";
 const App = () => {
   return (
     <>
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/updateproduct" element={<UpdateProduct />} />
           <Route path="/signup" element={<Singup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
 
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />

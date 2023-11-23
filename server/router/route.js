@@ -1,19 +1,31 @@
-const Router = require("express");
+// const Router = require("express");
+import { Router } from "express";
+
 const router = Router();
-const ProductModel = require("../model/productModel");
-const userModel = require("../model/userModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-require('dotenv').config();
+
+// const ProductModel = require("../model/productModel");
+import ProductModel from "../model/productModel.js"
+// const userModel = require("../model/userModel");
+import userModel from "../model/userModel.js";
+
+// const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
+
+// const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+// require('dotenv').config();
+import 'dotenv/config'
+
+// const controller = require("../controllers/appController")
+import { dataget, signup } from "../controllers/appController.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
 
 // Product View Request - Get Method
-router.get("/", async (req, res) => {
-  const productData = await ProductModel.find({});
-  res.status(200).json({ products: productData });
-});
+// Product View Request - Get Method
+
+router.route("/").get(dataget);
 
 // --- Product Add Request - POST Method
 
@@ -105,38 +117,7 @@ router.put("/updateProduct", async (req, res) => {
 // }
 
 // user account registration
-router.post("/signup", async (req, res) => {
-  const { name, username, email, password, profile } = req.body;
-
-  if (!name || !username || !email || !password || !profile) {
-    return res.status(411).send({ error: "Please fill the require field" });
-  }
-
-  let exitUserName = await userModel.findOne({ username });
-
-  if (exitUserName) {
-    return res.status(422).send({ error: "User name already exit!" });
-  }
-
-  let exitEmail = await userModel.findOne({ email });
-
-  if (exitEmail) {
-    return res.status(422).send({ error: "User Email already exit!" });
-  }
-
-  const hashedpassword = await bcrypt.hash(password, 10);
-
-  const user = new userModel({
-    name,
-    username,
-    email,
-    password: hashedpassword,
-    profile: profile || "",
-  });
-  user.save();
-
-  res.status(200).send({ message: "Registration Successful" });
-});
+router.route('/signup').post(signup)
 
 router.post("/signin", async (req, res) => {
   const { username, password } = req.body;
@@ -160,4 +141,26 @@ router.post("/signin", async (req, res) => {
 
 });
 
-module.exports = router;
+// GET USER 
+router.get("/user/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    if (!username) return res.status(501).send({ error: "Invalid Username" });
+
+    let user = await userModel.findOne({ username }).select('-password');
+
+    if (!user) return res.status(402).send({ error: "Couldn't find user" });
+
+    // console.log(user)
+    res.status(200).send(user);
+
+  } catch (error) {
+    res.status(404).send({ error: "Cannot Find user Data " })
+  }
+})
+
+
+// module.exports = router;
+export default router;
+
