@@ -1,30 +1,18 @@
-// const Router = require("express");
+import bcrypt from "bcrypt";
+import "dotenv/config";
 import { Router } from "express";
+
+import { dataget, signup, signin, userdataget } from "../controllers/appController.js";
+import ProductModel from "../model/productModel.js";
+import userModel from "../model/userModel.js";
+
 
 const router = Router();
 
-// const ProductModel = require("../model/productModel");
-import ProductModel from "../model/productModel.js"
-// const userModel = require("../model/userModel");
-import userModel from "../model/userModel.js";
 
-// const bcrypt = require("bcrypt");
-import bcrypt from "bcrypt";
-
-// const jwt = require("jsonwebtoken");
-import jwt from "jsonwebtoken";
-// require('dotenv').config();
-import 'dotenv/config'
-
-// const controller = require("../controllers/appController")
-import { dataget, signup } from "../controllers/appController.js";
-
-const SECRET_KEY = process.env.SECRET_KEY;
-
+/* Product System  */
 
 // Product View Request - Get Method
-// Product View Request - Get Method
-
 router.route("/").get(dataget);
 
 // --- Product Add Request - POST Method
@@ -106,8 +94,7 @@ router.put("/updateProduct", async (req, res) => {
     });
 });
 
-// user account
-
+/* user account */
 // {
 //   "name" : "Pappu Dey",
 //   "username" : "coderpappu",
@@ -116,51 +103,14 @@ router.put("/updateProduct", async (req, res) => {
 //   "profile" : "jsdhfkjshdfjksdhfskdjfh"
 // }
 
+// GET USER DATA
+router.route('/user/:username').get(userdataget);
+
 // user account registration
-router.route('/signup').post(signup)
+router.route("/signup").post(signup);
 
-router.post("/signin", async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password)
-    return res.status(422).send({ error: "Please Fill all required fields" });
-
-  const userExit = await userModel.findOne({ username: username });
-  if (!userExit) {
-    return res.status(422).send({ error: "User not found" });
-  } else {
-    const passMatch = await bcrypt.compare(password, userExit.password);
-    if (!passMatch) return res.status(400).send({ error: "Password not match" });
-
-    const token = jwt.sign({ userId: userExit._id, username: userExit.username }, SECRET_KEY, { expiresIn: '1h' })
-
-    res.status(200).send({ MSG: "Login Successful!", username: userExit.username, token });
-
-  }
+// user account login system
+router.route("/signin").post(signin);
 
 
-});
-
-// GET USER 
-router.get("/user/:username", async (req, res) => {
-  const { username } = req.params;
-
-  try {
-    if (!username) return res.status(501).send({ error: "Invalid Username" });
-
-    let user = await userModel.findOne({ username }).select('-password');
-
-    if (!user) return res.status(402).send({ error: "Couldn't find user" });
-
-    // console.log(user)
-    res.status(200).send(user);
-
-  } catch (error) {
-    res.status(404).send({ error: "Cannot Find user Data " })
-  }
-})
-
-
-// module.exports = router;
 export default router;
-
