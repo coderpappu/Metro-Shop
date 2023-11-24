@@ -1,13 +1,29 @@
 import axois from "./api";
-
+// import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
+// Set default headers
+
+const token = localStorage.getItem("token");
+
+axois.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // user Account
 
-
-
-// user registration 
+// user registration
 export async function registration(pdata) {
   try {
     const { data } = await axois.post("/signup", pdata);
@@ -39,9 +55,7 @@ export async function loginPoint(userdata) {
   }
 }
 
-
-
-// user data get from token 
+// user data get from token
 export async function getUsername() {
   const token = localStorage.getItem("token");
 
@@ -49,13 +63,10 @@ export async function getUsername() {
   return decoded;
 }
 
-
-
 // get student
 export async function getStudent() {
   const { data } = await axois.get("/");
   return data;
-
 }
 
 export async function addProduct(pdata) {

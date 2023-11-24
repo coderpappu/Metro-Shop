@@ -1,116 +1,42 @@
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import { Router } from "express";
-
-import { dataget, signup, signin, userdataget } from "../controllers/appController.js";
+import * as controller from "../controllers/appController.js";
 import ProductModel from "../model/productModel.js";
 import userModel from "../model/userModel.js";
+// middleware 
+import { requireSignin } from "../middleware/middleware.js";
 
+// const token = localStorage.getItem("token");
 
 const router = Router();
 
-
 /* Product System  */
 
-// Product View Request - Get Method
-router.route("/").get(dataget);
+// ALL PRODUCTS GET
+router.route("/").get(controller.allproductsget);
 
-// --- Product Add Request - POST Method
+//PRODUCT ADD
+router.route('/productAdd').post(controller.productAdd)
 
-// http://localhost:8080/productApi/productAdd
+// PRODUCT DELETE
+router.route("/:id").delete(controller.productDelete)
 
-// {
-//   "productName" : "Logitech 502 ",
-//   "prodType" : "Keyboard",
-//   "prodWeight" : "300g",
-//   "prodPrice" : 2000,
-//   "prodDisc" : 10
-
-// }
-
-router.post("/productAdd", async (req, res) => {
-  const {
-    productName,
-    prodType,
-    prodColor,
-    prodWeight,
-    prodPrice,
-    prodDisc,
-    prodImg,
-  } = req.body;
-
-  // if (
-  //   !productName ||
-  //   !prodType ||
-  //   !prodColor ||
-  //   !prodWeigh ||
-  //   !prodPrice ||
-  //   !prodDisc
-  // ) {
-  //   return res.status(422).json({ error: "Please Fill All Required Filed." });
-  // }
-
-  const product = new ProductModel({
-    productName,
-    prodType,
-    prodColor,
-    prodWeight,
-    prodPrice,
-    prodDisc,
-    prodImg,
-  });
-
-  await product.save();
-  res.status(200).json({ message: "Product Added Successful!" });
-});
-
-// product delete
-router.delete("/:id", async (req, res) => {
-  let deleteData = await ProductModel.deleteOne({ _id: req.params.id });
-  res.status(200).send("Product Deleted");
-});
-
-// update product
-router.put("/updateProduct", async (req, res) => {
-  let {
-    userId,
-    productName,
-    prodType,
-    prodWeight,
-    prodPrice,
-    prodDisc,
-    prodImg,
-  } = req.body;
-
-  ProductModel.updateOne(
-    { _id: userId },
-    { productName, prodType, prodWeight, prodPrice, prodDisc, prodImg }
-  )
-    .then(() => {
-      res.status(200).send({ message: "Updated Data" });
-    })
-    .catch((error) => {
-      res.status(500).send({ error: "Error" });
-    });
-});
+// UPDATE PRODUCT DETAILS
+router.route("/updateProduct").put(controller.updateProduct)
 
 /* user account */
-// {
-//   "name" : "Pappu Dey",
-//   "username" : "coderpappu",
-//   "email" : "pappudey.coder@gmail.com",
-//   "password" : "1234qwetr",
-//   "profile" : "jsdhfkjshdfjksdhfskdjfh"
-// }
 
 // GET USER DATA
-router.route('/user/:username').get(userdataget);
+router.route('/user/:username').get(controller.userdataget);
 
 // user account registration
-router.route("/signup").post(signup);
+router.route("/signup").post(controller.signup);
 
 // user account login system
-router.route("/signin").post(signin);
+router.route("/signin").post(controller.signin);
 
+// protected route token base 
+router.route("/user-auth").get(requireSignin, controller.userAuth)
 
 export default router;

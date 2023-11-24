@@ -15,6 +15,7 @@ import UpdateProduct from "./Pages/Dashboard/updateProduct";
 import Singup from "./Pages/singup";
 import Login from "./Pages/login";
 import Profile from "./Pages/profile";
+import PrivateRoute from "./Pages/privateRoute/PrivateRoute";
 const App = () => {
   return (
     <>
@@ -24,13 +25,19 @@ const App = () => {
           <Route path="/shop" element={<Shop />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admindash" element={<AdminDashboard />} />
-          <Route path="/prodadd" element={<ProductAdd />} />
-          <Route path="/actionpanel" element={<ActionPanel />} />
+
           <Route path="/updateproduct" element={<UpdateProduct />} />
+
           <Route path="/signup" element={<Singup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/admindash" element={<PrivateRoute />}>
+            <Route path="" element={<AdminDashboard />} />
+          </Route>
+
+          <Route path="/prodadd" element={<ProductAdd />} />
+          <Route path="/actionpanel" element={<ActionPanel />} />
 
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />

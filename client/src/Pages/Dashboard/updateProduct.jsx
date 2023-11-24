@@ -10,6 +10,7 @@ const UpdateProduct = () => {
     storeData = data;
   });
 
+  console.log(storeData);
   const initialData = {
     userId: storeData._id,
     productName: storeData.productName,
