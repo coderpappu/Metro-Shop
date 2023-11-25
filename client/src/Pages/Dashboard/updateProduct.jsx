@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ProductStore } from "../../store/store";
+import { useProductStore } from "../../store/store";
 import { productUpdate } from "../../halper/halper";
 const UpdateProduct = () => {
-  const productData = ProductStore((state) => state.product);
+  const productData = useProductStore((state) => state.product);
 
   let storeData;
 

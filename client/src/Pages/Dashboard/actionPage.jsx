@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { addProduct, getStudent, productDelete } from "../../halper/halper";
 
 import { Link, useNavigate } from "react-router-dom";
-import { ProductStore } from "../../store/store";
+import { useProductStore } from "../../store/store";
 
 const actionPage = () => {
   let [product, setproduct] = useState([]);
 
-  const addProduct = ProductStore((state) => state.addProduct);
+  const addProduct = useProductStore((state) => state.addProduct);
 
   useEffect(() => {
     dataShowHandler();

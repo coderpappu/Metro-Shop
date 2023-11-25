@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { loginPoint } from "../halper/halper";
-import { ProductStore } from "../store/store";
+import { useProductStore } from "../store/store";
 
 const login = () => {
-  const authStore = ProductStore((state) => state.setAuth);
+  // const authStore = ProductStore((state) => state.addToken);
+  const authStore = useProductStore((state) => state.setAuth);
   // const token = ProductStore((state) => state.auth);
   // console.log(token?.token);
   const initialData = {
@@ -25,7 +26,7 @@ const login = () => {
     let { token } = await loginPoint(input);
 
     localStorage.setItem("token", token);
-    authStore(token);
+    authStore("Hi");
   };
   return (
     <div>
