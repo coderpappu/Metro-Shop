@@ -1,6 +1,7 @@
 import axios from "../../halper/api";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+// import { useStore } from "zustand";
 import { useProductStore } from "../../store/store";
 
 const PrivateRoute = () => {
@@ -8,12 +9,7 @@ const PrivateRoute = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // user details get from store
-  // const tokenData = ProductStore((state) => state.tokenData);
-  // const authStore = useProductStore();
-  const dataList = useProductStore((state) => state.auth.dataList);
-
-  console.log(dataList);
+  const tokenData = useProductStore((state) => state.auth);
 
   useEffect(() => {
     const authCheck = async () => {
@@ -30,12 +26,12 @@ const PrivateRoute = () => {
       }
     };
 
-    if (token) {
+    if (tokenData?.authData) {
       authCheck();
     } else {
       navigate("/login");
     }
-  }, [token, navigate]);
+  }, [tokenData?.authData, navigate]);
 
   if (status) {
     return <Outlet />;

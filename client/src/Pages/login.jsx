@@ -2,12 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { loginPoint } from "../halper/halper";
 import { useProductStore } from "../store/store";
+import { useNavigate } from "react-router-dom";
 
 const login = () => {
-  // const authStore = ProductStore((state) => state.addToken);
+  const Navigate = useNavigate();
+
   const authStore = useProductStore((state) => state.setAuth);
-  // const token = ProductStore((state) => state.auth);
-  // console.log(token?.token);
+
   const initialData = {
     username: "",
     password: "",
@@ -24,9 +25,11 @@ const login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     let { token } = await loginPoint(input);
-
-    localStorage.setItem("token", token);
-    authStore("Hi");
+    if (token)
+      return (
+        localStorage.setItem("token", token), authStore(token), Navigate("/")
+      );
+    else return Navigate("/login");
   };
   return (
     <div>
